@@ -86,21 +86,7 @@ const menu = [
   
   window.addEventListener('DOMContentLoaded', function() {
       displayMenuItems(menu)
-
-      const categories = menu.reduce(function(val, item) {
-          if (!val.includes(item.category)){
-              val.push(item.category)
-            }
-            return val
-        }, ['all'])
-        
-        categoriesBtns = categories.map(function(category) {
-            return `
-            <button type="button" class="filter-btn" data-id=${category}>${category}</button>
-            `
-        })
-        btnDisplay.innerHTML = categoriesBtns.join('') 
-
+ 
        displayMenuButtons()
     })
 
@@ -126,8 +112,22 @@ function displayMenuItems(menuItems) {
 }
 
 function displayMenuButtons(){
-    const filterBtns = document.querySelectorAll('.filter-btn')
-    // filter buttons
+    const categories = menu.reduce(function(val, item) {
+        if (!val.includes(item.category)){
+            val.push(item.category)
+          }
+          return val
+      }, ['all'])
+      
+      categoriesBtns = categories.map(function(category) {
+          return `
+          <button type="button" class="filter-btn" data-id=${category}>${category}</button>
+          `
+      })
+      btnDisplay.innerHTML = categoriesBtns.join('');
+
+      // filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn')
     filterBtns.forEach(function(btn){
         btn.addEventListener('click', function(e){
             const category = e.currentTarget.dataset.id
@@ -136,7 +136,6 @@ function displayMenuButtons(){
                 if (menuItem.category == category){
                     return menuItem
                 }
-                
             })
     
             if(category == 'all'){

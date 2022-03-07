@@ -26,7 +26,7 @@ const months = [
   const deadline = document.querySelector('.deadline');
   const items = document.querySelectorAll('.deadline-format h4');
 
-  const futureDate = new Date(2020, 4, 24, 14, 30, 0);
+  const futureDate = new Date(2022, 4, 24, 14, 30, 0);
 
   const year = futureDate.getFullYear();
   const hours = futureDate.getHours();
@@ -44,7 +44,6 @@ const futureTime = futureDate.getTime();
 function getRemainingTime(){
     const todaysTime = new Date().getTime();
     t = futureTime - todaysTime
-    console.log(t)
 
     // times in milliseconds
     // 1 day = 24hr
@@ -60,5 +59,24 @@ function getRemainingTime(){
     let hours = Math.floor((t % oneDay) / oneHour)
     let minutes = Math.floor((t % oneHour) / oneMinute)
     let seconds = Math.floor((t % oneMinute) / 1000)
+
+    const values = [days, hours, minutes, seconds];
+
+    function formatValues(item){
+        if(item < 10){
+            return item = `0${item}`
+        }
+        return item
+    }
+
+    items.forEach(function(item, index){
+        item.textContent = formatValues(values[index])
+    }) 
+    if(t < 0){
+        clearInterval(countdown)
+        deadline.textContent = `<h4 class= 'expired'>Sorry this giveaway has expired</h4>`
+    }
 }
+
+let countdown = setInterval(getRemainingTime, 1000)
 getRemainingTime()
